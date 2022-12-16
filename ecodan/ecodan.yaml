@@ -1,0 +1,774 @@
+esphome:
+  name: esp32-warmtepomp
+  comment: Mitsubishi warmtepomp
+
+esp32:
+  board: mhetesp32minikit
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: DEBUG
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  reboot_timeout: 0s
+
+ota:
+#  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+#  manual_ip:
+#    static_ip: 10.10.20.42
+#    gateway: 10.10.20.1
+#    subnet: 255.255.255.0
+
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "ESP-Mitsubishi"
+    password: "configesp"
+    
+captive_portal:
+    
+web_server:
+  port: 80
+
+uart:
+  id: mod_bus
+  tx_pin: GPIO23  #D7 on the d1 mini
+  rx_pin: GPIO19  #D6 on the d1 mini
+  baud_rate: 9600
+  stop_bits: 1
+  
+modbus:
+  flow_control_pin: GPIO18  #D5 on the d1 mini
+  id: mitsubishi1
+  send_wait_time: 2000ms
+
+modbus_controller:
+  - id: mitsubishi
+    ## the Modbus device addr 1  (hex: 0x01)
+    address: 0x01
+    modbus_id: mitsubishi1
+    setup_priority: -10
+    #command_throttle: 250ms
+    update_interval: 15s
+
+sensor:
+## FC04 registers (read)
+    ## Frequentie
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heat_pump_frequency_master
+    name: "Heat Pump Frequency – Master"
+    icon: mdi:sine-wave
+    address: 0x20  ## Frequency - FC4: 32
+    unit_of_measurement: "Hz"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+
+    ## SWW Temperature Drop
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_DHW_temperature_drop
+    name: "SWW temperature drop"
+    icon: mdi:thermometer-chevron-down
+    address: 0x32 ## Room temperature - FC4: 50
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+
+    ## Room temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_room_temperature_zone_1
+    name: "Room Temperature"
+    icon: mdi:home-thermometer
+    address: 0x34 ## Room temperature - FC4: 52
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Refrigerant liquid temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_refrigerant_liquid_temperature
+    name: "Refrigerant Liquid Temperature"
+    icon: mdi:snowflake-thermometer
+    address: 0x38  ## Refrigerant Liquid Temp - FC4: 56
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: S_WORD  ## U-WORD veranderen in S_WORD ivm negatief
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+    
+    ## Outdoor ambient temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_outdoor_temperature
+    name: "Outdoor temperature"
+    icon: mdi:thermometer
+    address: 0x3A ## Outdoor ambient - FC4: 58
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: S_WORD  ## U-WORD veranderen in S_WORD ivm negatief
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.1
+
+    ## Flow temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature
+    name: "Flow temperature"
+    icon: mdi:thermometer-auto
+    address: 0x3C  ## Flow temperature - FC4: 60
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Return temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_return_temperature
+    name: "Return temperature"
+    icon: mdi:thermometer
+    address: 0x3E ## Return temperature - FC 4: 62
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Tank water temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_tank_temperature
+    name: "Tank temperature"
+    icon: mdi:water-thermometer
+    address: 0x40  ## Tank temperature - FC4: 64
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Heat pump run time x1
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heat_pump_run_time_1
+    address: 0x4F  ## Heat pump run time x1 - FC4: 79
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+
+    ## Heat pump run time x100
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heat_pump_run_time_100
+    address: 0x50  ## Heat pump run time x100 - FC4: 80
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+    filters:
+      - multiply: 100
+
+    ## Heat pump run time
+  - platform: template
+    id: mitsubishi_heat_pump_run_time
+    name: "Heat pump run time"
+    icon: mdi:wrench-clock
+    unit_of_measurement: "hrs"
+    accuracy_decimals: 0
+    lambda: |-
+      return id(mitsubishi_heat_pump_run_time_100).state + id(mitsubishi_heat_pump_run_time_1).state;
+    update_interval: 60s    
+
+    ## Energy used heating kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heating_kwh
+    address: 0x9C  ## FC4: 156
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used heating Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heating_wh
+    address: 0x9D  ## FC4: 157
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used heating 
+  - platform: template
+    id: mitsubishi_energy_used_heating
+    name: "Energy used heating"
+    icon: mdi:heat-wave
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_heating_kwh).state + (id(mitsubishi_heating_wh).state/100);
+    update_interval: 60s  
+
+    ## Energy used cooling kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_cooling_kwh
+    address: 0x9E  ## FC4: 158
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used cooling Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_cooling_wh
+    address: 0x9F  ## FC4: 159
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used cooling 
+  - platform: template
+    id: mitsubishi_energy_used_cooling
+    name: "Energy used cooling"
+    icon: mdi:snowflake
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_cooling_kwh).state + (id(mitsubishi_cooling_wh).state/100);
+    update_interval: 60s  
+  
+    ## Energy used SWW kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_sww_kwh
+    address: 0xA0  ## FC4: 160
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used SWW Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_sww_wh
+    address: 0xA1  ## FC4: 161
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy used SWW 
+  - platform: template
+    id: mitsubishi_energy_used_sww
+    name: "Energy used SWW"
+    icon: mdi:water
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_sww_kwh).state + (id(mitsubishi_sww_wh).state/100);
+    update_interval: 60s
+
+    ## Energy produced heating kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_heating_kwh
+    address: 0xA6  ## FC4: 166
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced heating Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_heating_wh
+    address: 0xA7  ## FC4: 167
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced heating 
+  - platform: template
+    id: mitsubishi_energy_produced_heating
+    name: "Energy produced heating"
+    icon: mdi:heat-wave
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_produced_heating_kwh).state + (id(mitsubishi_produced_heating_wh).state/100);
+    update_interval: 60s
+
+    ## Energy produced cooling kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_cooling_kwh
+    address: 0xA8  ## FC4: 168
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced cooling Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_cooling_wh
+    address: 0xA9  ## FC4: 169
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced cooling 
+  - platform: template
+    id: mitsubishi_energy_produced_cooling
+    name: "Energy produced cooling"
+    icon: mdi:snowflake
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_produced_cooling_kwh).state + (id(mitsubishi_produced_cooling_wh).state/100);
+    update_interval: 60s
+
+    ## Energy produced SWW kWh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_sww_kwh
+    address: 0xAA  ## FC4: 170
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced SWW Wh
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_sww_wh
+    address: 0xAB  ## FC4: 171
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Energy produced SWW 
+  - platform: template
+    id: mitsubishi_energy_produced_sww
+    name: "Energy produced SWW"
+    icon: mdi:water
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: "kWh"
+    accuracy_decimals: 3
+    lambda: |-
+      return id(mitsubishi_produced_sww_kwh).state + (id(mitsubishi_produced_sww_wh).state/100);
+    update_interval: 60s
+
+    ## COP heating
+  - platform: template
+    id: mitsubishi_cop_heating
+    name: "COP Heating"
+    icon: mdi:slash-forward-box
+    accuracy_decimals: 2
+    lambda: |-
+      return (id(mitsubishi_produced_heating_kwh).state + (id(mitsubishi_produced_heating_wh).state/100)) / (id(mitsubishi_heating_kwh).state + (id(mitsubishi_heating_wh).state/100));
+    update_interval: 60s    
+
+    ## COP Cooling
+  - platform: template
+    id: mitsubishi_cop_cooling
+    name: "COP Cooling"
+    icon: mdi:slash-forward-box
+    accuracy_decimals: 2
+    lambda: |-
+      return (id(mitsubishi_produced_cooling_kwh).state + (id(mitsubishi_produced_cooling_wh).state/100)) / (id(mitsubishi_cooling_kwh).state + (id(mitsubishi_cooling_wh).state/100));
+    update_interval: 60s  
+
+    ## COP SWW
+  - platform: template
+    id: mitsubishi_cop_sww
+    name: "COP SWW"
+    icon: mdi:slash-forward-box
+    accuracy_decimals: 2
+    lambda: |-
+      return (id(mitsubishi_produced_sww_kwh).state + (id(mitsubishi_produced_sww_wh).state/100)) / (id(mitsubishi_sww_kwh).state + (id(mitsubishi_sww_wh).state/100));
+    update_interval: 60s  
+
+    ## Flow
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow
+    name: "Flow"
+    icon: mdi:arrow-right-bold-circle
+    address: 0xAD ## Flow - FC4: 173
+    unit_of_measurement: "l/min"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+
+    ## FC03 registers (holding)
+
+    ## Tank temperature set
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_target_tank_temperature
+    name: "Tank temperature set"
+    icon: mdi:water-thermometer-outline
+    address: 0x1F ## FC3: 31
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+    ## Target room temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_target_room_temperature
+    name: "H/C temperature set"
+    icon: mdi:home-thermometer-outline
+    address: 0x20 ## FC3: 32
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+    ## Flow temperature set
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_set
+    name: "Flow temperature set"
+    icon: mdi:thermometer-auto
+    address: 0x55 ## FC3: 85
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+    
+    ## Legionella temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_legionella_temperature
+    name: "Legionella temperature set"
+    icon: mdi:bacteria-outline
+    address: 0x59 ## FC3: 89
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
+number:
+    ## Set tank temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_set_tank_temperature
+    name: "Setpoint tank temperature"
+    icon: mdi:water-thermometer-outline
+    address: 0x1F ## FC3: 31
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    mode: box
+    step: 0.5
+    entity_category: config
+    min_value: 30
+    max_value: 61
+    lambda: "return  x / 100; "
+    write_lambda: |-
+      uint16_t newtemp = x*100;
+      ESP_LOGI("main", "Set tank temperature %d", newtemp);
+      // Create a modbus command item with the flow temperature as the payload
+      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x1E, newtemp);
+      // Submit the command to the send queue
+      mitsubishi->queue_command(set_payload_command);
+      return {}; 
+
+    ## Set H/C temperature
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_set_room_temperature
+    name: "Setpoint H/C temperature"
+    icon: mdi:home-thermometer
+    address: 0x20 ## FC3: 32
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    mode: box
+    step: 0.5
+    entity_category: config
+    min_value: 10
+    max_value: 36
+    lambda: "return  x / 100; "
+    write_lambda: |-
+      uint16_t newtemp = x*100;
+      ESP_LOGI("main", "Set room temperature %d", newtemp);
+      // Create a modbus command item with the flow temperature as the payload
+      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x20, newtemp);
+      // Submit the command to the send queue
+      mitsubishi->queue_command(set_payload_command);
+      return {}; 
+
+switch:
+    ## Force SWW run
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_force_sww
+    name: "Set force SWW"
+    icon: mdi:fire-alert
+    address: 0x25 ## FC3: 37
+    register_type: holding
+    #value_type: U_WORD
+    write_lambda: |-
+      uint16_t forceSWW = x;
+      ESP_LOGI("main", "Set force SWW %d", x);
+      // Create a modbus command item with the flow temperature as the payload
+      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x25, forceSWW);
+      // Submit the command to the send queue
+      mitsubishi->queue_command(set_payload_command);
+      return {};
+
+    ## Set vacation mode
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_set_vacation
+    name: "Set vacation mode"
+    icon: mdi:briefcase
+    address: 0x26 ## FC3: 38
+    register_type: holding
+    #value_type: U_WORD
+    write_lambda: |-
+      uint16_t vacation = x;
+      ESP_LOGI("main", "Set vacation mode %d", x);
+      // Create a modbus command item with the flow temperature as the payload
+      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x26, x);
+      // Submit the command to the send queue
+      mitsubishi->queue_command(set_payload_command);
+      return {};
+
+    ## Set heatpump on/off
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    name: "Heat pump on/off"
+    register_type: coil
+    address: 0001
+    bitmask: 0
+    entity_category: config
+    icon: "mdi:toggle-switch"
+
+text_sensor: 
+    ## Defrost mode
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_defrost
+    name: "Defrost"
+    icon: mdi:snowflake-melt
+    address: 0x1A ## FC4: 26
+    register_type: read
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for defrost mode %d", value);
+      switch (value) {
+        case 0: return std::string("Off");
+        case 1: return std::string("Standby");
+        case 2: return std::string("Defrost");
+        case 3: return std::string("Waiting restart");
+        default: return std::string("Unknown");
+      }
+      return x;
+
+    ## Residual heat removal
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_residual_heat_removal
+    name: "Residual heat removal"
+    icon: mdi:car-defrost-rear
+    address: 0x1B ## FC4: 27
+    register_type: read
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for residual heat removal %d", value);
+      switch (value) {
+        case 0: return std::string("Normal");
+        case 1: return std::string("Prepared");
+        case 2: return std::string("Residual heat removal");
+        default: return std::string("Unknown");
+      }
+      return x;
+
+    ## System On/Off
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_system_onoff
+    name: "System On/Off"
+    icon: mdi:power
+    address: 0x19 ## FC3: 25
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for system on/off %d", value);
+      switch (value) {
+        case 0: return std::string("Off");
+        case 1: return std::string("On");
+        default: return std::string("Unknown");
+      }
+      return x;
+    
+    ## System operating mode
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_operating_mode
+    name: "System operating mode"
+    icon: mdi:message-question-outline
+    address: 0x1A ## FC3: 26
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for system operating mode %d", value);
+      switch (value) {
+        case 0: return std::string("Stop");
+        case 1: return std::string("Hot Water");
+        case 2: return std::string("Heating");
+        case 3: return std::string("Cooling");
+        case 5: return std::string("Freeze Stat");
+        case 6: return std::string("Legionella");
+        default: return std::string("Unknown");
+      }
+      return x;
+      
+    ## System SWW operating mode
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_sww_operating_mode
+    name: "System SWW operating mode"
+    icon: mdi:car-cruise-control
+    address: 0x1B ## FC3: 27
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for SWW operating mode %d", value);
+      switch (value) {
+        case 0: return std::string("Normal");
+        case 1: return std::string("Eco");
+        default: return std::string("Unknown");
+      }
+      return x;
+
+    ## System heating mode
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heating_mode
+    name: "System heating mode"
+    icon: mdi:sun-snowflake-variant
+    address: 0x1C ## FC3: 28
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for heating mode %d", value);
+      switch (value) {
+        case 0: return std::string("Heating room temperature");
+        case 1: return std::string("Heating flow temperature");
+        case 2: return std::string("Heating curve");
+        case 3: return std::string("Cooling room temperature");
+        case 4: return std::string("Cooling flow temperature");
+        case 5: return std::string("Heating startup procedure");
+        default: return std::string("Unknown");
+      }
+      return x;
+
+    ## System heat source
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_heat_source
+    name: "System heat source"
+    icon: mdi:heating-coil
+    address: 0x50 ## FC3: 80
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for heat source %d", value);
+      switch (value) {
+        case 0: return std::string("Heatpump");
+        case 1: return std::string("Screw-in heater");
+        case 2: return std::string("Electric heater");
+        case 3: return std::string("Screw-in heater and electric heater");
+        case 4: return std::string("SWW boiler");
+        default: return std::string("Unknown");
+      }
+      return x;
+
+select:
+  - platform: modbus_controller
+    id: mitsubishi_set_hc_mode
+    name: "H/C mode"
+    address: 0x1C ## FC6: 28
+    optionsmap:
+      "Heating room": 0
+      "Heating flow": 1
+      "Heating curve": 2
+      "Cooling room": 3
+      "Cooling flow": 4
+      "Heating startup": 5
