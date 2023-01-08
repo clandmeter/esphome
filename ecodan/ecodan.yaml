@@ -53,6 +53,17 @@ modbus_controller:
 ## FC04 Input Registers (readonly)
 
 sensor:
+    ## MelcoBEMS MINI (A1M) Firmware Version (FC4: 3, MA: 30004)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_procon_version
+    name: "MelcoBEMS MINI firmware version"
+    icon: mdi:memory
+    address: 0x03
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+
     ## Heat Pump Frequency – Master (FC4: 32, MA: 30033)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
