@@ -104,6 +104,20 @@ sensor:
     filters:
       - multiply: 0.01
 
+    ## Room Temperature – Zone 2 (signed) (FC4: 53, MA: 30054)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_room_temperature_zone_2
+    name: "Room temperature - Zone 2"
+    icon: mdi:home-thermometer
+    address: 0x35
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
     ## Refrigerant Liquid Temperature (signed) (FC4: 56, MA: 30057)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -167,6 +181,62 @@ sensor:
     name: "Tank water temperature"
     icon: mdi:water-thermometer
     address: 0x40
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Flow Temperature – Zone 1 (signed) (FC4: 66, MA: 30067)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_zone_1
+    name: "Flow temperature - Zone 1"
+    icon: mdi:thermometer-auto
+    address: 0x42
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Return Temperature – Zone 1 (signed) (FC4: 68, MA: 30069)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_return_temperature_zone_1
+    name: "Return temperature - Zone 1"
+    icon: mdi:thermometer
+    address: 0x44
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Flow Temperature – Zone 2 (signed) (FC4: 70, MA: 30071)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_zone_2
+    name: "Flow temperature - Zone 2"
+    icon: mdi:thermometer-auto
+    address: 0x46
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Return Temperature – Zone 2 (signed) (FC4: 72, MA 30073)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_return_temperature_zone_2
+    name: "Return temperature - Zone 2"
+    icon: mdi:thermometer
+    address: 0x48
     unit_of_measurement: "°C"
     register_type: read
     value_type: U_WORD
@@ -486,6 +556,19 @@ sensor:
     filters:
       - multiply: 0.01
 
+    ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC3: 34, MA: 40035)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_target_temperature_zone_2
+    name: "H/C target temperature set - Zone 2"
+    icon: mdi:home-thermometer-outline
+    address: 0x22
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
     ## Flow Temperature Setpoint – Zone 1 (signed) (FC3: 85, MA: 40086)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -499,6 +582,19 @@ sensor:
     filters:
       - multiply: 0.01
     
+    ## Flow Temperature Setpoint – Zone 2 (signed) (FC3: 87, MA: 40088)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_setpoint_zone_2
+    name: "Flow temperature setpoint - Zone 2"
+    icon: mdi:thermometer-auto
+    address: 0x57
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    filters:
+      - multiply: 0.01
+
     ## Legionella Temperature Setpoint (signed) (FC3: 89, MA: 40090)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -563,6 +659,31 @@ number:
       // Submit the command to the send queue
       mitsubishi->queue_command(set_payload_command);
       return {}; 
+
+    ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC3: 34, MA: 40035)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_target_temperature_zone_2
+    name: "H/C target temperature - Zone 2"
+    icon: mdi:home-thermometer
+    address: 0x22
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: U_WORD
+    mode: box
+    step: 0.5
+    entity_category: config
+    min_value: 10
+    max_value: 36
+    lambda: "return x/100;"
+    write_lambda: |-
+      uint16_t newtemp = x*100;
+      ESP_LOGI("main", "Set room temperature %d", newtemp);
+      // Create a modbus command item with the flow temperature as the payload
+      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x22, newtemp);
+      // Submit the command to the send queue
+      mitsubishi->queue_command(set_payload_command);
+      return {};
 
 switch:
     ## Force DHW (FC3: 37, MA: 40038)
@@ -744,6 +865,30 @@ text_sensor:
       }
       return x;
 
+    ## A/C Mode – Zone 2 (FC3: 29, MA: 40030)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_ac_mode_zone_2
+    name: "A/C mode - Zone 2"
+    icon: mdi:sun-snowflake-variant
+    address: 0x1D
+    register_type: holding
+    bitmask: 0
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      ESP_LOGD("main", "Value for ac mode Zone 2 %d", value);
+      switch (value) {
+        case 0: return std::string("Heating room temperature");
+        case 1: return std::string("Heating flow temperature");
+        case 2: return std::string("Heating curve");
+        case 3: return std::string("Cooling room temperature");
+        case 4: return std::string("Cooling flow temperature");
+        case 5: return std::string("Floor Dryup");
+        default: return std::string("Unknown");
+      }
+      return x;
+
     ## Heat Source Status (FC3: 80, MA: 40081)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -773,6 +918,19 @@ select:
     id: mitsubishi_ac_mode_zone_1
     name: "A/C mode - Zone 1"
     address: 0x1C
+    optionsmap:
+      "Heating room": 0
+      "Heating flow": 1
+      "Heating curve": 2
+      "Cooling room": 3
+      "Cooling flow": 4
+      "Floor Dryup": 5
+
+    ## A/C mode – Zone 2 (FC6: 29, 40030)
+  - platform: modbus_controller
+    id: mitsubishi_ac_mode_zone_2
+    name: "A/C mode - Zone 2"
+    address: 0x1D
     optionsmap:
       "Heating room": 0
       "Heating flow": 1
