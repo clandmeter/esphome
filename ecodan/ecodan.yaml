@@ -686,39 +686,25 @@ number:
       return {};
 
 switch:
-    ## Force DHW (FC3: 37, MA: 40038)
+    ## Force DHW (FC6: 37, MA: 40038)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_force_dhw
-    name: "Force DHW"
+    name: "Set force DHW"
+    register_type: holding
     icon: mdi:fire-alert
     address: 0x25
-    register_type: holding
-    write_lambda: |-
-      uint16_t forceDHW = x;
-      ESP_LOGI("main", "Force DHW %d", x);
-      // Create a modbus command item with the flow temperature as the payload
-      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x25, forceDHW);
-      // Submit the command to the send queue
-      mitsubishi->queue_command(set_payload_command);
-      return {};
+    bitmask: 1
 
-    ## Holiday (FC3: 38, MA: 40039)
+    ## Holiday (FC6: 38, MA: 40039)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_set_holiday_mode
-    name: "Set holiday mode"
+    id: mitsubishi_set_vacation
+    name: "Set vacation mode"
+    register_type: holding
     icon: mdi:briefcase
     address: 0x26
-    register_type: holding
-    write_lambda: |-
-      uint16_t vacation = x;
-      ESP_LOGI("main", "Set holiday mode %d", x);
-      // Create a modbus command item with the flow temperature as the payload
-      esphome::modbus_controller::ModbusCommandItem set_payload_command = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(mitsubishi, 0x26, x);
-      // Submit the command to the send queue
-      mitsubishi->queue_command(set_payload_command);
-      return {};
+    bitmask: 1
 
     ## System ON/OFF (FC1: 1, MA: 00002)
   - platform: modbus_controller
