@@ -649,6 +649,50 @@ sensor:
     value_type: U_WORD
     accuracy_decimals: 1
 
+    ## Version of main software (FC4: 199, MA: 30200)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_version_of_main_software
+    name: "Version of main software"
+    icon: mdi:memory
+    address: 0xC7
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+
+    ## Sub-version of software (FC4: 200, MA: 30201)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_subversion_of_software
+    name: "Sub-version of software"
+    icon: mdi:memory
+    address: 0xC8
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 0
+
+    ## Consumed Electric Power (FC4: 227, MA: 30228)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_consumed_electric_power
+    address: 0xE3
+    icon: mdi:lightning-bolt
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
+    ## Produced Power (FC4: 228, MA: 30229)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_produced_power
+    address: 0xE4
+    icon: mdi:lightning-bolt
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
     ## FC03 Holding Registers (read)
 
     ## Set Tank Water Temperature (signed) (FC3: 31, MA: 40031)
