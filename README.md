@@ -4,7 +4,7 @@ MelcoBEMS MINI (A1M) is a MODBUS Building Energy Management Systems for Mitsubis
 The included yaml file in this project can be written to an esphome compatible device and act as a MODBUS controller.
 The ESP should be equiped with a compatible RS-485 device and connected to the MelcoBEMS MINI (A1M).
 
-## Generic MODBUS information
+## General MODBUS information
 
 ### MODBUS Primary tables
 
