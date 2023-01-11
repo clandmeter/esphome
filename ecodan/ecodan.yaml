@@ -76,6 +76,76 @@ sensor:
     value_type: U_WORD
     accuracy_decimals: 0
 
+    ## Temperature Setpoint – Zone 1 (signed) (FC4: 40, MA: 30041)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_room_temperature_zone_1
+    name: "Temperature Setpoint – Zone 1"
+    icon: mdi:home-thermometer
+    address: 0x28
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Temperature Setpoint – Zone 2 (signed) (FC4: 42, MA: 30043)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_room_temperature_zone_2
+    name: "Temperature Setpoint – Zone 2"
+    icon: mdi:home-thermometer
+    address: 0x2A
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Flow Temperature Setpoint – Zone 1 (signed) (FC4: 44, MA: 30045)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_setpoint_zone_1
+    name: "Flow Temperature Setpoint – Zone 1"
+    icon: mdi:thermometer-auto
+    address: 0x2C
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Flow Temperature Setpoint – Zone 2 (signed) (FC4: 46, MA: 30047)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_flow_temperature_setpoint_zone_2
+    name: "Flow Temperature Setpoint – Zone 2"
+    icon: mdi:thermometer-auto
+    address: 0x2E
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Legionella Temperature Setpoint (signed) (FC4: 48, MA: 30049)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_legionella_temperature_setpoint
+    name: "Legionella Temperature Setpoint"
+    icon: mdi:bacteria-outline
+    address: 0x30
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
     ## DHW Temperature Drop (signed) (FC4: 50, MA: 30051)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -104,13 +174,13 @@ sensor:
     filters:
       - multiply: 0.01
 
-    ## Room Temperature – Zone 2 (signed) (FC4: 53, MA: 30054)
+    ## Room Temperature – Zone 2 (signed) (FC4: 54, MA: 30054)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_room_temperature_zone_2
     name: "Room temperature - Zone 2"
     icon: mdi:home-thermometer
-    address: 0x35
+    address: 0x36
     unit_of_measurement: "°C"
     register_type: read
     value_type: U_WORD
@@ -244,6 +314,34 @@ sensor:
     filters:
       - multiply: 0.01
 
+    ## Boiler Flow Temperature (signed) (FC4: 74, MA 30075)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_boiler_flow_temperature
+    name: "Boiler Flow Temperature"
+    icon: mdi:thermometer
+    address: 0x4A
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
+    ## Boiler Return Temperature (signed) (FC4: 76, MA 30077)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_boiler_flow_temperature
+    name: "Boiler Return Temperature"
+    icon: mdi:thermometer
+    address: 0x4C
+    unit_of_measurement: "°C"
+    register_type: read
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+      - multiply: 0.01
+
     ## Heat Pump Run Time (hours) (FC4: 79, MA: 30080)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -273,7 +371,7 @@ sensor:
     accuracy_decimals: 0
     lambda: |-
       return id(mitsubishi_heat_pump_run_time_100).state + id(mitsubishi_heat_pump_run_time).state;
-    update_interval: 60s    
+    update_interval: 60s
 
     ## Last Measured Heating Energy Consumption – kWh part (FC4: 156, MA: 30157)
   - platform: modbus_controller
@@ -379,6 +477,18 @@ sensor:
     lambda: |-
       return id(mitsubishi_dhw_kwh).state + (id(mitsubishi_dhw_wh).state/100);
     update_interval: 60s
+
+    ## Last Measured Total Energy Consumption – kWh (FC4: 162, MA: 30163)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_last_measured_total_energy_consumtion
+    name: "Last Measured Total Energy Consumption"
+    address: 0xA2
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
 
     ## Last Measured Heating Energy Produced – kWh part (FC4: 166: MA: 30167)
   - platform: modbus_controller
@@ -515,6 +625,18 @@ sensor:
       return (id(mitsubishi_produced_dhw_kwh).state + (id(mitsubishi_produced_dhw_wh).state/100)) / (id(mitsubishi_dhw_kwh).state + (id(mitsubishi_dhw_wh).state/100));
     update_interval: 60s  
 
+    ## Last Measured Total Energy Produced – kWh (FC4: 172, MA: 30173)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_last_measured_total_energy_consumtion
+    name: "Last Measured Total Energy Produced"
+    address: 0xAC
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    register_type: read
+    value_type: U_WORD
+
     ## Flow rate (FC4: 173, MA: 30174)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -563,45 +685,6 @@ sensor:
     name: "H/C target temperature set - Zone 2"
     icon: mdi:home-thermometer-outline
     address: 0x22
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: U_WORD
-    filters:
-      - multiply: 0.01
-
-    ## Flow Temperature Setpoint – Zone 1 (signed) (FC3: 85, MA: 40086)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_flow_temperature_setpoint_zone_1
-    name: "Flow temperature setpoint - Zone 1"
-    icon: mdi:thermometer-auto
-    address: 0x55
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: U_WORD
-    filters:
-      - multiply: 0.01
-    
-    ## Flow Temperature Setpoint – Zone 2 (signed) (FC3: 87, MA: 40088)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_flow_temperature_setpoint_zone_2
-    name: "Flow temperature setpoint - Zone 2"
-    icon: mdi:thermometer-auto
-    address: 0x57
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: U_WORD
-    filters:
-      - multiply: 0.01
-
-    ## Legionella Temperature Setpoint (signed) (FC3: 89, MA: 40090)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_legionella_temperature_setpoint
-    name: "Legionella temperature setpoint"
-    icon: mdi:bacteria-outline
-    address: 0x59
     unit_of_measurement: "°C"
     register_type: holding
     value_type: U_WORD
