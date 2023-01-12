@@ -787,6 +787,7 @@ text_sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_7_segment_display_error_code_digit_1
     name: "7-Segment Display Error Code Digit 1"
+    icon: mdi:alert-circle
     entity_category: diagnostic
     address: 0x1D
     register_type: read
@@ -811,6 +812,7 @@ text_sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_7_segment_display_error_code_digit_2
     name: "7-Segment Display Error Code Digit 2"
+    icon: mdi:alert-circle
     entity_category: diagnostic
     address: 0x1E
     register_type: read
