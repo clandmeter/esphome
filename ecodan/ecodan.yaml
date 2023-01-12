@@ -716,7 +716,7 @@ text_sensor:
         case 0: return std::string("ATA unit connected");
         case 1: return std::string("ATW system connected");
         case 2: return std::string("Lossnay system connected");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -737,7 +737,7 @@ text_sensor:
         case 1: return std::string("Standby");
         case 2: return std::string("Defrost");
         case 3: return std::string("Waiting restart");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -756,7 +756,7 @@ text_sensor:
         case 0: return std::string("Normal");
         case 1: return std::string("Prepared");
         case 2: return std::string("Residual heat removal");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -777,7 +777,7 @@ text_sensor:
         case 1: return std::string("Error (System)");
         case 2: return std::string("Error (Startup)");
         case 3: return std::string("Maintenance Error");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -802,7 +802,7 @@ text_sensor:
         case 5: return std::string("L");
         case 6: return std::string("P");
         case 7: return std::string("U");
-        default: return std::string("N/A");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -840,7 +840,7 @@ text_sensor:
         case 19: return std::string("L");
         case 20: return std::string("P");
         case 21: return std::string("U");
-        default: return std::string("N/A");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -861,7 +861,7 @@ text_sensor:
         case 2: return std::string("Electric heater");
         case 3: return std::string("Screw-in heater and electric heater");
         case 4: return std::string("DHW boiler");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
@@ -916,7 +916,7 @@ text_sensor:
         case 3: return std::string("Cooling");
         case 5: return std::string("Freeze Stat");
         case 6: return std::string("Legionella");
-        default: return std::string("Unknown");
+        default: return std::to_string(value);
       }
       return x;
 
