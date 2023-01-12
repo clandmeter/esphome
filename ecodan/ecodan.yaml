@@ -865,7 +865,37 @@ text_sensor:
         default: return std::string("Unknown");
       }
       return x;
-    
+
+    ## Model Profile 1 (FC4: 151, MA: 30152)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_model_profile_1
+    name: "Model Profile 1"
+    icon: mdi:hvac
+    entity_category: diagnostic
+    address: 0x97
+    register_type: read
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      switch (value) {
+        case 0: return std::string("FTC2B");
+        case 1: return std::string("FTC4");
+        case 2: return std::string("FTC5");
+        case 3: return std::string("FTC6");
+        case 128: return std::string("CAHV1A");
+        case 129: return std::string("CAHV1B");
+        case 130: return std::string("CRHV1A");
+        case 131: return std::string("CRHV1B");
+        case 132: return std::string("EAHV1A");
+        case 133: return std::string("EAHV1B");
+        case 134: return std::string("QAHV1A");
+        case 135: return std::string("QAHV1B");
+        case 144: return std::string("PWFY1");
+        default: return std::to_string(value);
+      }
+      return x;
+
     ## Operating mode (FC3: 26, MA: 40027)
     ## NOTE: Seems not available for FTC4,5,6 but does seem to work
     ## NOTE: This is writeable holding register but we keep it readonly for now
