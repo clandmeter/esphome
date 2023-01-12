@@ -56,6 +56,7 @@ sensor:
     name: "Heat pump frequency – Master"
     icon: mdi:sine-wave
     address: 0x20
+    device_class: frequency
     unit_of_measurement: "Hz"
     register_type: read
     value_type: U_WORD
@@ -68,6 +69,7 @@ sensor:
     name: "Temperature Setpoint – Zone 1"
     icon: mdi:home-thermometer
     address: 0x28
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -82,6 +84,7 @@ sensor:
     name: "Temperature Setpoint – Zone 2"
     icon: mdi:home-thermometer
     address: 0x2A
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -96,6 +99,7 @@ sensor:
     name: "Flow Temperature Setpoint – Zone 1"
     icon: mdi:thermometer-auto
     address: 0x2C
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -110,6 +114,7 @@ sensor:
     name: "Flow Temperature Setpoint – Zone 2"
     icon: mdi:thermometer-auto
     address: 0x2E
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -124,6 +129,7 @@ sensor:
     name: "Legionella Temperature Setpoint"
     icon: mdi:bacteria-outline
     address: 0x30
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -138,6 +144,7 @@ sensor:
     name: "DHW temperature drop"
     icon: mdi:thermometer-chevron-down
     address: 0x32
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -152,6 +159,7 @@ sensor:
     name: "Room temperature - Zone 1"
     icon: mdi:home-thermometer
     address: 0x34
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -166,6 +174,7 @@ sensor:
     name: "Room temperature - Zone 2"
     icon: mdi:home-thermometer
     address: 0x36
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -180,6 +189,7 @@ sensor:
     name: "Refrigerant liquid temperature"
     icon: mdi:snowflake-thermometer
     address: 0x38
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -194,6 +204,7 @@ sensor:
     name: "Outdoor ambient temperature"
     icon: mdi:thermometer
     address: 0x3A
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -208,6 +219,7 @@ sensor:
     name: "Flow temperature"
     icon: mdi:thermometer-auto
     address: 0x3C
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -222,6 +234,7 @@ sensor:
     name: "Return temperature"
     icon: mdi:thermometer
     address: 0x3E
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -236,6 +249,7 @@ sensor:
     name: "Tank water temperature"
     icon: mdi:water-thermometer
     address: 0x40
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -250,6 +264,7 @@ sensor:
     name: "Flow temperature - Zone 1"
     icon: mdi:thermometer-auto
     address: 0x42
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -264,6 +279,7 @@ sensor:
     name: "Return temperature - Zone 1"
     icon: mdi:thermometer
     address: 0x44
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -278,6 +294,7 @@ sensor:
     name: "Flow temperature - Zone 2"
     icon: mdi:thermometer-auto
     address: 0x46
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -292,6 +309,7 @@ sensor:
     name: "Return temperature - Zone 2"
     icon: mdi:thermometer
     address: 0x48
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -306,6 +324,7 @@ sensor:
     name: "Boiler Flow Temperature"
     icon: mdi:thermometer
     address: 0x4A
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -320,6 +339,7 @@ sensor:
     name: "Boiler Return Temperature"
     icon: mdi:thermometer
     address: 0x4C
+    device_class: temperature
     unit_of_measurement: "°C"
     register_type: read
     value_type: S_WORD
@@ -352,6 +372,7 @@ sensor:
     id: mitsubishi_heat_pump_run_time
     name: "Heat pump run time"
     icon: mdi:wrench-clock
+    device_class: duration
     unit_of_measurement: "hrs"
     accuracy_decimals: 0
     lambda: |-
@@ -363,8 +384,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_heating_kwh
     address: 0x9C
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -374,8 +393,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_heating_wh
     address: 0x9D
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -398,8 +415,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_cooling_kwh
     address: 0x9E
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -409,8 +424,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_cooling_wh
     address: 0x9F
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -433,8 +446,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_dhw_kwh
     address: 0xA0
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -444,8 +455,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_dhw_wh
     address: 0xA1
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -480,8 +489,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_heating_kwh
     address: 0xA6
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -491,8 +498,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_heating_wh
     address: 0xA7
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -515,8 +520,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_cooling_kwh
     address: 0xA8
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -526,8 +529,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_cooling_wh
     address: 0xA9
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -550,8 +551,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_dhw_kwh
     address: 0xAA
-    unit_of_measurement: "kWh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -561,8 +560,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_dhw_wh
     address: 0xAB
-    unit_of_measurement: "Wh"
-    device_class: energy
     state_class: total_increasing
     register_type: read
     value_type: U_WORD
@@ -639,6 +636,7 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_version_of_main_software
     name: "Version of main software"
+    device_class: enum
     icon: mdi:memory
     address: 0xC7
     register_type: read
@@ -651,6 +649,7 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_subversion_of_software
     name: "Sub-version of software"
+    device_class: enum
     icon: mdi:memory
     address: 0xC8
     register_type: read
@@ -662,6 +661,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_consumed_electric_power
+    name: "Consumed Electric Power"
     address: 0xE3
     icon: mdi:lightning-bolt
     device_class: energy
@@ -673,6 +673,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_produced_power
+    name: "Produced Power"
     address: 0xE4
     icon: mdi:lightning-bolt
     device_class: energy
@@ -897,6 +898,7 @@ number:
     modbus_controller_id: mitsubishi
     id: mitsubishi_set_tank_water_temperature
     name: "Set tank water temperature"
+    device_class: temperature
     icon: mdi:water-thermometer-outline
     address: 0x1F
     unit_of_measurement: "°C"
@@ -912,6 +914,7 @@ number:
     modbus_controller_id: mitsubishi
     id: mitsubishi_hc_thermostat_target_temperature_zone_1
     name: "H/C Thermostat Target Temperature – Zone 1"
+    device_class: temperature
     icon: mdi:home-thermometer
     address: 0x20
     unit_of_measurement: "°C"
@@ -926,6 +929,7 @@ number:
     modbus_controller_id: mitsubishi
     id: mitsubishi_hc_thermostat_target_temperature_zone_2
     name: "H/C Thermostat Target Temperature – Zone 2"
+    device_class: temperature
     icon: mdi:home-thermometer
     address: 0x22
     unit_of_measurement: "°C"
@@ -940,6 +944,7 @@ number:
     modbus_controller_id: mitsubishi
     id: mitsubishi_thermostat_target_temperature_zone_1
     name: "Thermostat Target Temperature – Zone 1"
+    device_class: temperature
     icon: mdi:home-thermometer
     address: 0x36
     unit_of_measurement: "°C"
@@ -954,6 +959,7 @@ number:
     modbus_controller_id: mitsubishi
     id: mitsubishi_thermostat_target_temperature_zone_2
     name: "Thermostat Target Temperature – Zone 2"
+    device_class: temperature
     icon: mdi:home-thermometer
     address: 0x38
     unit_of_measurement: "°C"
