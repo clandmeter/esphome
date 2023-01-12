@@ -644,6 +644,7 @@ sensor:
     register_type: read
     value_type: U_WORD
     accuracy_decimals: 0
+    entity_category: diagnostic
 
     ## Sub-version of software (FC4: 200, MA: 30201)
   - platform: modbus_controller
@@ -655,6 +656,7 @@ sensor:
     register_type: read
     value_type: U_WORD
     accuracy_decimals: 0
+    entity_category: diagnostic
 
     ## Consumed Electric Power (FC4: 227, MA: 30228)
   - platform: modbus_controller
