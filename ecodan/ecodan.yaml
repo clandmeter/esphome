@@ -2,9 +2,11 @@ esphome:
   name: ecodan
 
 esp32:
-  board: mhetesp32minikit
+  board: lolin_s2_mini
+  variant: ESP32S2
   framework:
-    type: arduino
+    type: esp-idf
+    platform_version: https://github.com/jhamhader/platform-espressif32#8bc085573e4f6986ffcda7050b9607739f3c6976
 
 logger:
 
@@ -20,12 +22,12 @@ wifi:
     password: "configesp"
     
 uart:
-  tx_pin: GPIO23
-  rx_pin: GPIO19
+  tx_pin: 11
+  rx_pin: 9
   baud_rate: 9600
 
 modbus:
-  flow_control_pin: GPIO18
+  flow_control_pin: 7
 
 modbus_controller:
   - id: mitsubishi
