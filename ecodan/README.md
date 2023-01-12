@@ -34,7 +34,7 @@ The ESP should be equiped with a compatible RS-485 device and connected to the M
 | Register name                                       | Address | Hex | Modicom | Type        |
 |-----------------------------------------------------|---------|-----|---------|-------------|
 | MelcoBEMS MINI (A1M) Firmware Version               | 3       | 3   | 30004   | sensor      |
-| Fault Code (decimal)                                | 8       | 8   | 30009   | sensor      |
+| Fault Code (decimal)                                | 8       | 8   | 30009   | text_sensor |
 | System Type Detected                                | 9       | 9   | 30010   | text_sensor |
 | Defrost                                             | 26      | 1A  | 30027   | text_sensor |
 | Residual Heat Removal                               | 27      | 1B  | 30028   | text_sensor |
@@ -64,7 +64,6 @@ The ESP should be equiped with a compatible RS-485 device and connected to the M
 | Boiler Return Temperature (signed)                  | 76      | 4C  | 30077   | sensor      |
 | Heat Pump Run Time (hours)                          | 79      | 4F  | 30080   | sensor      |
 | Heat Pump Run Time (hours x100)                     | 80      | 50  | 30081   | sensor      |
-| H/C Control Type                                    | 144     | 90  | 30145   | text_sensor |
 | Model Profile 1                                     | 151     | 97  | 30152   | text_sensor |
 | Last Measured Heating Energy Consumption – kWh part | 156     | 9C  | 30157   | sensor      |
 | Last Measured Heating Energy Consumption – Wh part  | 157     | 9D  | 30158   | sensor      |
@@ -88,23 +87,22 @@ The ESP should be equiped with a compatible RS-485 device and connected to the M
 
 ### MelcoBEMS MINI (A1M) Holding Registers
 
-| Register name                                       | Address | Hex | Modicom | Type    |
-|-----------------------------------------------------|---------|-----|---------|---------|
-| System On/Off                                       | 25      | 19  | 40026   | unknown |
-| Operating Mode                                      | 26      | 1A  | 40027   | unknown |
-| Operating Mode (DHW)                                | 27      | 1B  | 40028   | switch  |
-| A/C Mode – Zone 1                                   | 28      | 1C  | 40029   | select  |
-| A/C Mode – Zone 2                                   | 29      | 1D  | 40030   | select  |
-| Set Tank Water Temperature (signed)                 | 30      | 1E  | 40031   | number  |
-| H/C Thermostat Target Temperature – Zone 1 (signed) | 32      | 20  | 40033   | number  |
-| H/C Thermostat Target Temperature – Zone 2 (signed) | 34      | 22  | 40035   | number  |
-| Force DHW                                           | 37      | 25  | 40038   | switch  |
-| Holiday                                             | 38      | 26  | 40039   | switch  |
-| Cooling On Prohibit – Zone 1                        | 41      | 29  | 40042   | switch  |
-| Cooling On Prohibit – Zone 2                        | 43      | 2B  | 40044   | switch  |
-| Thermostat Target Temperature – Zone 1 (signed)     | 54      | 36  | 40055   | number  |
-| Thermostat Target Temperature – Zone 2 (signed)     | 56      | 38  | 40057   | number  |
-| HC Control Type                                     | 58      | 3A  | 40059   | select  |
+| Register name                                       | Address | Hex | Modicom | Type        |
+|-----------------------------------------------------|---------|-----|---------|-------------|
+| Operating Mode                                      | 26      | 1A  | 40027   | text_sensor |
+| Operating Mode (DHW)                                | 27      | 1B  | 40028   | switch      |
+| A/C Mode – Zone 1                                   | 28      | 1C  | 40029   | select      |
+| A/C Mode – Zone 2                                   | 29      | 1D  | 40030   | select      |
+| Set Tank Water Temperature (signed)                 | 30      | 1E  | 40031   | number      |
+| H/C Thermostat Target Temperature – Zone 1 (signed) | 32      | 20  | 40033   | number      |
+| H/C Thermostat Target Temperature – Zone 2 (signed) | 34      | 22  | 40035   | number      |
+| Force DHW                                           | 37      | 25  | 40038   | switch      |
+| Holiday                                             | 38      | 26  | 40039   | switch      |
+| Cooling On Prohibit – Zone 1                        | 41      | 29  | 40042   | switch      |
+| Cooling On Prohibit – Zone 2                        | 43      | 2B  | 40044   | switch      |
+| Thermostat Target Temperature – Zone 1 (signed)     | 54      | 36  | 40055   | number      |
+| Thermostat Target Temperature – Zone 2 (signed)     | 56      | 38  | 40057   | number      |
+| HC Control Type                                     | 58      | 3A  | 40059   | select      |
 
 ### MelcoBEMS MINI (A1M) Coils
 
