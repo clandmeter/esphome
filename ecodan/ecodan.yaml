@@ -636,7 +636,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_version_of_main_software
     name: "Version of main software"
-    device_class: enum
     icon: mdi:memory
     address: 0xC7
     register_type: read
@@ -649,7 +648,6 @@ sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_subversion_of_software
     name: "Sub-version of software"
-    device_class: enum
     icon: mdi:memory
     address: 0xC8
     register_type: read
