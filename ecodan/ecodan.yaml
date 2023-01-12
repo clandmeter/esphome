@@ -932,7 +932,7 @@ number:
     name: "Set tank water temperature"
     device_class: temperature
     icon: mdi:water-thermometer-outline
-    address: 0x1F
+    address: 0x1E
     unit_of_measurement: "°C"
     register_type: holding
     value_type: S_WORD
