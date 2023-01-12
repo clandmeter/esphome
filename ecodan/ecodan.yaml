@@ -858,7 +858,6 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
-    entity_category: config
 
     ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC6: 34, MA: 40035)
   - platform: modbus_controller
@@ -873,7 +872,6 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
-    entity_category: config
 
     ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 36, MA: 40037)
   - platform: modbus_controller
@@ -888,7 +886,6 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
-    entity_category: config
 
     ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 38, MA: 40039)
   - platform: modbus_controller
@@ -903,7 +900,6 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
-    entity_category: config
 
 switch:
 
@@ -927,7 +923,6 @@ switch:
     icon: mdi:fire-alert
     address: 0x25
     bitmask: 1
-    entity_category: config
 
     ## Holiday (FC6: 38, MA: 40039)
   - platform: modbus_controller
@@ -938,7 +933,6 @@ switch:
     icon: mdi:briefcase
     address: 0x26
     bitmask: 1
-    entity_category: config
 
     ## Cooling On Prohibit – Zone 1 (FC6: 41, MA: 40042)
   - platform: modbus_controller
@@ -969,7 +963,6 @@ switch:
     register_type: coil
     address: 0001
     bitmask: 0
-    entity_category: config
     icon: "mdi:toggle-switch"
 
 select:
