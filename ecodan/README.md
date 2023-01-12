@@ -39,6 +39,8 @@ The ESP should be equiped with a compatible RS-485 device and connected to the M
 | Defrost                                             | 26      | 1A  | 30027   | text_sensor |
 | Residual Heat Removal                               | 27      | 1B  | 30028   | text_sensor |
 | Refrigerant Error Info                              | 28      | 1C  | 30029   | text_sensor |
+| 7-Segment Display Error Code Digit 1                | 29      | 1D  | 30030   | text_sensor |
+| 7-Segment Display Error Code Digit 2                | 30      | 1E  | 30031   | text_sensor |
 | Heat Pump Frequency – Master                        | 32      | 20  | 30033   | sensor      |
 | Heat Source Status                                  | 39      | 27  | 30040   | text_sensor |
 | Temperature Setpoint – Zone 1 (signed)              | 40      | 28  | 30041   | sensor      |
