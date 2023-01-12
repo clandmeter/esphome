@@ -49,18 +49,6 @@ sensor:
     accuracy_decimals: 0
     entity_category: diagnostic
 
-    ## Fault Code (decimal) (FC4: 8, MA: 30009)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_fault_code
-    name: "Fault code"
-    icon: mdi:alert-circle
-    address: 0x08
-    register_type: read
-    value_type: U_WORD
-    accuracy_decimals: 0
-    entity_category: diagnostic
-
     ## Heat Pump Frequency – Master (FC4: 32, MA: 30033)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
@@ -837,6 +825,25 @@ switch:
     icon: "mdi:toggle-switch"
 
 text_sensor:
+
+    ## Fault Code (decimal) (FC4: 8, MA: 30009)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_fault_code
+    name: "Fault code"
+    icon: mdi:alert-circle
+    address: 0x08
+    register_type: read
+    entity_category: diagnostic
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      switch (value) {
+        case 8000: return std::string("No Error");
+        case 6999: return std::string("Bad communication between A1M and unit");
+        default: return std::to_string(value);
+      }
+      return x;
 
     ## System Type Detected (FC4: 9, MA: 30010)
   - platform: modbus_controller
