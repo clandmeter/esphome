@@ -780,6 +780,67 @@ text_sensor:
       }
       return x;
 
+    ## 7-Segment Display Error Code Digit 1 (FC4: 29, MA: 30030)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_7_segment_display_error_code_digit_1
+    name: "7-Segment Display Error Code Digit 1"
+    entity_category: diagnostic
+    address: 0x1D
+    register_type: read
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      switch (value) {
+        case 0: return std::string("A");
+        case 1: return std::string("b");
+        case 2: return std::string("E");
+        case 3: return std::string("F");
+        case 4: return std::string("J");
+        case 5: return std::string("L");
+        case 6: return std::string("P");
+        case 7: return std::string("U");
+        default: return std::string("N/A");
+      }
+      return x;
+
+    ## 7-Segment Display Error Code Digit 2 (FC4: 30, MA: 30031)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_7_segment_display_error_code_digit_2
+    name: "7-Segment Display Error Code Digit 2"
+    entity_category: diagnostic
+    address: 0x1E
+    register_type: read
+    raw_encode: HEXBYTES
+    lambda: |-
+      uint16_t value = modbus_controller::word_from_hex_str(x, 0);
+      switch (value) {
+        case 1: return std::string("1");
+        case 2: return std::string("2");
+        case 3: return std::string("3");
+        case 4: return std::string("4");
+        case 5: return std::string("5");
+        case 6: return std::string("6");
+        case 7: return std::string("7");
+        case 8: return std::string("8");
+        case 9: return std::string("9");
+        case 10: return std::string("A");
+        case 11: return std::string("B");
+        case 12: return std::string("C");
+        case 13: return std::string("D");
+        case 14: return std::string("E");
+        case 15: return std::string("F");
+        case 16: return std::string("O");
+        case 17: return std::string("H");
+        case 18: return std::string("J");
+        case 19: return std::string("L");
+        case 20: return std::string("P");
+        case 21: return std::string("U");
+        default: return std::string("N/A");
+      }
+      return x;
+
     ## Heat Source Status (FC4: 39, MA: 30040)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
