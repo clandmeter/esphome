@@ -765,6 +765,7 @@ text_sensor:
     modbus_controller_id: mitsubishi
     id: mitsubishi_refrigerant_error_info
     name: "Refrigerant error info"
+    entity_category: diagnostic
     icon: mdi:alert-circle
     address: 0x1C
     register_type: read
