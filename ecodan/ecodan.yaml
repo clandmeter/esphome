@@ -367,7 +367,7 @@ sensor:
     filters:
       - multiply: 100
 
-    ## Heat pump run time (calculcated)
+    ## Heat pump run time (template)
   - platform: template
     id: mitsubishi_heat_pump_run_time
     name: "Heat pump run time"
@@ -397,7 +397,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy used heating (calculated)
+    ## Energy used heating (template)
   - platform: template
     id: mitsubishi_energy_used_heating
     name: "Energy used heating"
@@ -428,7 +428,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy used cooling (calculated)
+    ## Energy used cooling (template)
   - platform: template
     id: mitsubishi_energy_used_cooling
     name: "Energy used cooling"
@@ -459,7 +459,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy used DHW (calculated)
+    ## Energy used DHW (template)
   - platform: template
     id: mitsubishi_energy_used_dhw
     name: "Energy used DHW"
@@ -502,7 +502,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy produced heating (calculated)
+    ## Energy produced heating (template)
   - platform: template
     id: mitsubishi_energy_produced_heating
     name: "Energy produced heating"
@@ -533,7 +533,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy produced cooling (calculate)
+    ## Energy produced cooling (template)
   - platform: template
     id: mitsubishi_energy_produced_cooling
     name: "Energy produced cooling"
@@ -564,7 +564,7 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-    ## Energy produced DHW (calculated)
+    ## Energy produced DHW (template)
   - platform: template
     id: mitsubishi_energy_produced_dhw
     name: "Energy produced DHW"
@@ -577,7 +577,7 @@ sensor:
       return id(mitsubishi_produced_dhw_kwh).state + (id(mitsubishi_produced_dhw_wh).state/100);
     update_interval: 60s
 
-    ## COP heating (calculated)
+    ## COP heating (template)
   - platform: template
     id: mitsubishi_cop_heating
     name: "COP heating"
@@ -587,7 +587,7 @@ sensor:
       return (id(mitsubishi_produced_heating_kwh).state + (id(mitsubishi_produced_heating_wh).state/100)) / (id(mitsubishi_heating_kwh).state + (id(mitsubishi_heating_wh).state/100));
     update_interval: 60s    
 
-    ## COP Cooling (calculated)
+    ## COP Cooling (template)
   - platform: template
     id: mitsubishi_cop_cooling
     name: "COP cooling"
@@ -597,7 +597,7 @@ sensor:
       return (id(mitsubishi_produced_cooling_kwh).state + (id(mitsubishi_produced_cooling_wh).state/100)) / (id(mitsubishi_cooling_kwh).state + (id(mitsubishi_cooling_wh).state/100));
     update_interval: 60s  
 
-    ## COP DHW (calculated)
+    ## COP DHW (template)
   - platform: template
     id: mitsubishi_cop_dhw
     name: "COP DHW"
