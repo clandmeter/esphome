@@ -708,6 +708,7 @@ text_sensor:
     icon: mdi:hvac
     address: 0x09
     register_type: read
+    entity_category: diagnostic
     raw_encode: HEXBYTES
     lambda: |-
       uint16_t value = modbus_controller::word_from_hex_str(x, 0);
