@@ -30,25 +30,17 @@ web_server:
   port: 80
 
 uart:
-  id: mod_bus
   tx_pin: GPIO23  #D7 on the d1 mini
   rx_pin: GPIO19  #D6 on the d1 mini
   baud_rate: 9600
-  stop_bits: 1
-  
+
 modbus:
-  flow_control_pin: GPIO18  #D5 on the d1 mini
-  id: mitsubishi1
-  send_wait_time: 2000ms
+  flow_control_pin: GPIO18 #D5 on the d1 mini
 
 modbus_controller:
   - id: mitsubishi
-    ## the Modbus device addr 1  (hex: 0x01)
     address: 0x01
-    modbus_id: mitsubishi1
-    setup_priority: -10
-    update_interval: 15s
-
+    update_interval: 20s
 
 ## FC04 Input Registers (readonly)
 
@@ -944,7 +936,7 @@ text_sensor:
     
     ## Operating mode (FC3: 26, MA: 40027)
     ## NOTE: Seems not available for FTC4,5,6 but does seem to work
-    ## This is writeable holding register but does it really allow writing?
+    ## NOTE: This is writeable holding register but we keep it readonly for now
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_operating_mode
@@ -971,6 +963,7 @@ select:
 
     ## A/C mode – Zone 1 (FC6: 28, 40029)
   - platform: modbus_controller
+    modbus_controller_id: mitsubishi
     id: mitsubishi_ac_mode_zone_1
     name: "A/C mode - Zone 1"
     address: 0x1C
@@ -984,6 +977,7 @@ select:
 
     ## A/C mode – Zone 2 (FC6: 29, 40030)
   - platform: modbus_controller
+    modbus_controller_id: mitsubishi
     id: mitsubishi_ac_mode_zone_2
     name: "A/C mode - Zone 2"
     address: 0x1D
@@ -997,6 +991,7 @@ select:
 
     ## HC Control Type (FC6: 58, 40059)
   - platform: modbus_controller
+    modbus_controller_id: mitsubishi
     id: mitsubishi_ac_mode_zone_2
     name: "HC Control Type"
     address: 0x3A
