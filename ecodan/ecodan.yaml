@@ -47,6 +47,7 @@ sensor:
     register_type: read
     value_type: U_WORD
     accuracy_decimals: 0
+    entity_category: diagnostic
 
     ## Fault Code (decimal) (FC4: 8, MA: 30009)
   - platform: modbus_controller
@@ -58,6 +59,7 @@ sensor:
     register_type: read
     value_type: U_WORD
     accuracy_decimals: 0
+    entity_category: diagnostic
 
     ## Heat Pump Frequency – Master (FC4: 32, MA: 30033)
   - platform: modbus_controller
@@ -705,6 +707,7 @@ number:
     min_value: 30
     max_value: 65
     multiply: 100
+    entity_category: config
 
     ## H/C Thermostat Target Temperature – Zone 1 (signed) (FC6: 32, MA: 40033)
   - platform: modbus_controller
@@ -719,6 +722,7 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
+    entity_category: config
 
     ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC6: 34, MA: 40035)
   - platform: modbus_controller
@@ -733,6 +737,7 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
+    entity_category: config
 
     ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 36, MA: 40037)
   - platform: modbus_controller
@@ -747,6 +752,7 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
+    entity_category: config
 
     ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 38, MA: 40039)
   - platform: modbus_controller
@@ -761,6 +767,7 @@ number:
     min_value: 10
     max_value: 36
     multiply: 100
+    entity_category: config
 
 switch:
 
@@ -773,6 +780,7 @@ switch:
     icon: mdi:fire-alert
     address: 0x27
     bitmask: 1
+    entity_category: config
 
     ## Force DHW (FC6: 37, MA: 40038)
   - platform: modbus_controller
@@ -783,6 +791,7 @@ switch:
     icon: mdi:fire-alert
     address: 0x25
     bitmask: 1
+    entity_category: config
 
     ## Holiday (FC6: 38, MA: 40039)
   - platform: modbus_controller
@@ -793,6 +802,7 @@ switch:
     icon: mdi:briefcase
     address: 0x26
     bitmask: 1
+    entity_category: config
 
     ## Cooling On Prohibit – Zone 1 (FC6: 41, MA: 40042)
   - platform: modbus_controller
@@ -803,6 +813,7 @@ switch:
     icon: mdi:block-helper
     address: 0x29
     bitmask: 1
+    entity_category: config
 
     ## Cooling On Prohibit – Zone 2 (FC6: 43, MA: 40044)
   - platform: modbus_controller
@@ -813,6 +824,7 @@ switch:
     icon: mdi:block-helper
     address: 0x2B
     bitmask: 1
+    entity_category: config
 
     ## System ON/OFF (FC1: 1, MA: 00002)
   - platform: modbus_controller
@@ -966,6 +978,7 @@ select:
       "Cooling room": 3
       "Cooling flow": 4
       "Floor Dryup": 5
+    entity_category: config
 
     ## A/C mode – Zone 2 (FC6: 29, 40030)
   - platform: modbus_controller
@@ -980,6 +993,7 @@ select:
       "Cooling room": 3
       "Cooling flow": 4
       "Floor Dryup": 5
+    entity_category: config
 
     ## HC Control Type (FC6: 58, 40059)
   - platform: modbus_controller
@@ -990,3 +1004,4 @@ select:
     optionsmap:
       "Heating": 0
       "Cooling": 1
+    entity_category: config
