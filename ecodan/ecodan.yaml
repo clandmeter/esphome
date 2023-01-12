@@ -72,7 +72,7 @@ sensor:
     ## Temperature Setpoint – Zone 1 (signed) (FC4: 40, MA: 30041)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_room_temperature_zone_1
+    id: mitsubishi_temperature_setpoint_zone_1
     name: "Temperature Setpoint – Zone 1"
     icon: mdi:home-thermometer
     address: 0x28
@@ -86,7 +86,7 @@ sensor:
     ## Temperature Setpoint – Zone 2 (signed) (FC4: 42, MA: 30043)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_room_temperature_zone_2
+    id: mitsubishi_temperature_setpoint_zone_2
     name: "Temperature Setpoint – Zone 2"
     icon: mdi:home-thermometer
     address: 0x2A
@@ -324,7 +324,7 @@ sensor:
     ## Boiler Return Temperature (signed) (FC4: 76, MA 30077)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_boiler_flow_temperature
+    id: mitsubishi_boiler_return_temperature
     name: "Boiler Return Temperature"
     icon: mdi:thermometer
     address: 0x4C
@@ -338,7 +338,7 @@ sensor:
     ## Heat Pump Run Time (hours) (FC4: 79, MA: 30080)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_heat_pump_run_time
+    id: mitsubishi_heat_pump_run_time_1
     address: 0x4F
     register_type: read
     value_type: U_WORD
@@ -363,7 +363,7 @@ sensor:
     unit_of_measurement: "hrs"
     accuracy_decimals: 0
     lambda: |-
-      return id(mitsubishi_heat_pump_run_time_100).state + id(mitsubishi_heat_pump_run_time).state;
+      return id(mitsubishi_heat_pump_run_time_100).state + id(mitsubishi_heat_pump_run_time_1).state;
     update_interval: 60s
 
     ## Last Measured Heating Energy Consumption – kWh part (FC4: 156, MA: 30157)
@@ -621,7 +621,7 @@ sensor:
     ## Last Measured Total Energy Produced – kWh (FC4: 172, MA: 30173)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_last_measured_total_energy_consumtion
+    id: mitsubishi_last_measured_total_energy_produced
     name: "Last Measured Total Energy Produced"
     address: 0xAC
     unit_of_measurement: "kWh"
@@ -982,7 +982,7 @@ select:
     ## HC Control Type (FC6: 58, 40059)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
-    id: mitsubishi_ac_mode_zone_2
+    id: mitsubishi_hc_control_type
     name: "HC Control Type"
     address: 0x3A
     optionsmap:
