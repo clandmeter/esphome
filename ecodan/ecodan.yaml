@@ -19,11 +19,6 @@ wifi:
     ssid: "ESP-ecodan"
     password: "configesp"
     
-captive_portal:
-    
-web_server:
-  port: 80
-
 uart:
   tx_pin: GPIO23
   rx_pin: GPIO19
