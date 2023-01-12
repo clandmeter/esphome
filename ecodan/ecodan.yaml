@@ -910,7 +910,7 @@ switch:
     name: "DHW Eco mode"
     register_type: holding
     icon: mdi:sprout
-    address: 0x27
+    address: 0x1B
     bitmask: 1
     entity_category: config
 
