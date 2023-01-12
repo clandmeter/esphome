@@ -29,6 +29,9 @@ The ESP should be equiped with a compatible RS-485 device and connected to the M
 | 16            | 40001-50000 | Holding Register | Multiple | 16-bit word | 0-65535 |
 | 4             | 30001-40000 | Input Register   | Readonly | 16-bit word | 0-65535 |
 
+
+## Added MODBUS registers in ESPHome config
+
 ### MelcoBEMS MINI (A1M) Input Register
 
 | Register name                                       | Address | Hex | Modicom | Type        |
