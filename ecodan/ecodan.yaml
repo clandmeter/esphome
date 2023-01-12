@@ -971,7 +971,7 @@ number:
     max_value: 36
     multiply: 100
 
-    ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 36, MA: 40037)
+    ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 54, MA: 40055)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_thermostat_target_temperature_zone_1
@@ -986,7 +986,7 @@ number:
     max_value: 36
     multiply: 100
 
-    ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 38, MA: 40039)
+    ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 56, MA: 40057)
   - platform: modbus_controller
     modbus_controller_id: mitsubishi
     id: mitsubishi_thermostat_target_temperature_zone_2
