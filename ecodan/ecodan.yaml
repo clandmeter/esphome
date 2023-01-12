@@ -680,152 +680,6 @@ sensor:
     register_type: read
     value_type: U_WORD
 
-## FC6 Holding Registers (write)
-
-number:
-
-    ## Set Tank Water Temperature (signed) (FC6: 30, MA: 40031)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_set_tank_water_temperature
-    name: "Set tank water temperature"
-    icon: mdi:water-thermometer-outline
-    address: 0x1F
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: S_WORD
-    min_value: 30
-    max_value: 65
-    multiply: 100
-    entity_category: config
-
-    ## H/C Thermostat Target Temperature – Zone 1 (signed) (FC6: 32, MA: 40033)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_hc_thermostat_target_temperature_zone_1
-    name: "H/C Thermostat Target Temperature – Zone 1"
-    icon: mdi:home-thermometer
-    address: 0x20
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: S_WORD
-    min_value: 10
-    max_value: 36
-    multiply: 100
-    entity_category: config
-
-    ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC6: 34, MA: 40035)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_hc_thermostat_target_temperature_zone_2
-    name: "H/C Thermostat Target Temperature – Zone 2"
-    icon: mdi:home-thermometer
-    address: 0x22
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: S_WORD
-    min_value: 10
-    max_value: 36
-    multiply: 100
-    entity_category: config
-
-    ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 36, MA: 40037)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_thermostat_target_temperature_zone_1
-    name: "Thermostat Target Temperature – Zone 1"
-    icon: mdi:home-thermometer
-    address: 0x36
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: S_WORD
-    min_value: 10
-    max_value: 36
-    multiply: 100
-    entity_category: config
-
-    ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 38, MA: 40039)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_thermostat_target_temperature_zone_2
-    name: "Thermostat Target Temperature – Zone 2"
-    icon: mdi:home-thermometer
-    address: 0x38
-    unit_of_measurement: "°C"
-    register_type: holding
-    value_type: S_WORD
-    min_value: 10
-    max_value: 36
-    multiply: 100
-    entity_category: config
-
-switch:
-
-    ## Operating Mode (DHW) (FC6: 27, MA: 40028)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_operating_mode_dhw
-    name: "Operating Mode (DHW)"
-    register_type: holding
-    icon: mdi:fire-alert
-    address: 0x27
-    bitmask: 1
-    entity_category: config
-
-    ## Force DHW (FC6: 37, MA: 40038)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_force_dhw
-    name: "Set force DHW"
-    register_type: holding
-    icon: mdi:fire-alert
-    address: 0x25
-    bitmask: 1
-    entity_category: config
-
-    ## Holiday (FC6: 38, MA: 40039)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_set_holiday
-    name: "Set holiday mode"
-    register_type: holding
-    icon: mdi:briefcase
-    address: 0x26
-    bitmask: 1
-    entity_category: config
-
-    ## Cooling On Prohibit – Zone 1 (FC6: 41, MA: 40042)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_cooling_on_prohibit_zone_1
-    name: "Cooling On Prohibit – Zone 1"
-    register_type: holding
-    icon: mdi:block-helper
-    address: 0x29
-    bitmask: 1
-    entity_category: config
-
-    ## Cooling On Prohibit – Zone 2 (FC6: 43, MA: 40044)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    id: mitsubishi_cooling_on_prohibit_zone_2
-    name: "Cooling On Prohibit – Zone 2"
-    register_type: holding
-    icon: mdi:block-helper
-    address: 0x2B
-    bitmask: 1
-    entity_category: config
-
-    ## System ON/OFF (FC1: 1, MA: 00002)
-  - platform: modbus_controller
-    modbus_controller_id: mitsubishi
-    name: "System On/Off"
-    register_type: coil
-    address: 0001
-    bitmask: 0
-    entity_category: config
-    icon: "mdi:toggle-switch"
-
 text_sensor:
 
     ## Fault Code (decimal) (FC4: 8, MA: 30009)
@@ -971,6 +825,152 @@ text_sensor:
         default: return std::string("Unknown");
       }
       return x;
+
+## FC6 Holding Registers (write)
+
+number:
+
+    ## Set Tank Water Temperature (signed) (FC6: 30, MA: 40031)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_set_tank_water_temperature
+    name: "Set tank water temperature"
+    icon: mdi:water-thermometer-outline
+    address: 0x1F
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: S_WORD
+    min_value: 30
+    max_value: 65
+    multiply: 100
+    entity_category: config
+
+    ## H/C Thermostat Target Temperature – Zone 1 (signed) (FC6: 32, MA: 40033)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_hc_thermostat_target_temperature_zone_1
+    name: "H/C Thermostat Target Temperature – Zone 1"
+    icon: mdi:home-thermometer
+    address: 0x20
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: S_WORD
+    min_value: 10
+    max_value: 36
+    multiply: 100
+    entity_category: config
+
+    ## H/C Thermostat Target Temperature – Zone 2 (signed) (FC6: 34, MA: 40035)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_hc_thermostat_target_temperature_zone_2
+    name: "H/C Thermostat Target Temperature – Zone 2"
+    icon: mdi:home-thermometer
+    address: 0x22
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: S_WORD
+    min_value: 10
+    max_value: 36
+    multiply: 100
+    entity_category: config
+
+    ## Thermostat Target Temperature – Zone 1 (signed) (FC6: 36, MA: 40037)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_thermostat_target_temperature_zone_1
+    name: "Thermostat Target Temperature – Zone 1"
+    icon: mdi:home-thermometer
+    address: 0x36
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: S_WORD
+    min_value: 10
+    max_value: 36
+    multiply: 100
+    entity_category: config
+
+    ## Thermostat Target Temperature – Zone 2 (signed) (FC6: 38, MA: 40039)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_thermostat_target_temperature_zone_2
+    name: "Thermostat Target Temperature – Zone 2"
+    icon: mdi:home-thermometer
+    address: 0x38
+    unit_of_measurement: "°C"
+    register_type: holding
+    value_type: S_WORD
+    min_value: 10
+    max_value: 36
+    multiply: 100
+    entity_category: config
+
+switch:
+
+    ## Operating Mode (DHW) (FC6: 27, MA: 40028)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_operating_mode_dhw
+    name: "Operating Mode (DHW)"
+    register_type: holding
+    icon: mdi:fire-alert
+    address: 0x27
+    bitmask: 1
+    entity_category: config
+
+    ## Force DHW (FC6: 37, MA: 40038)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_force_dhw
+    name: "Set force DHW"
+    register_type: holding
+    icon: mdi:fire-alert
+    address: 0x25
+    bitmask: 1
+    entity_category: config
+
+    ## Holiday (FC6: 38, MA: 40039)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_set_holiday
+    name: "Set holiday mode"
+    register_type: holding
+    icon: mdi:briefcase
+    address: 0x26
+    bitmask: 1
+    entity_category: config
+
+    ## Cooling On Prohibit – Zone 1 (FC6: 41, MA: 40042)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_cooling_on_prohibit_zone_1
+    name: "Cooling On Prohibit – Zone 1"
+    register_type: holding
+    icon: mdi:block-helper
+    address: 0x29
+    bitmask: 1
+    entity_category: config
+
+    ## Cooling On Prohibit – Zone 2 (FC6: 43, MA: 40044)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    id: mitsubishi_cooling_on_prohibit_zone_2
+    name: "Cooling On Prohibit – Zone 2"
+    register_type: holding
+    icon: mdi:block-helper
+    address: 0x2B
+    bitmask: 1
+    entity_category: config
+
+    ## System ON/OFF (FC1: 1, MA: 00002)
+  - platform: modbus_controller
+    modbus_controller_id: mitsubishi
+    name: "System On/Off"
+    register_type: coil
+    address: 0001
+    bitmask: 0
+    entity_category: config
+    icon: "mdi:toggle-switch"
 
 select:
 
