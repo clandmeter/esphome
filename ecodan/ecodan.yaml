@@ -1,21 +1,24 @@
 substitutions:
   device: ecodan
 
+## ARDUINO_USB_CDC_ON_BOOT fixes USB_CDC compilation error
 esphome:
   name: ${device}
+  platformio_options:
+    board_build.extra_flags:
+      - "-DARDUINO_USB_CDC_ON_BOOT=0"
 
 esp32:
   board: lolin_s2_mini
   variant: ESP32S2
   framework:
-    type: esp-idf
-    platform_version: https://github.com/jhamhader/platform-espressif32#8bc085573e4f6986ffcda7050b9607739f3c6976
+    type: arduino
 
 logger:
-
 api:
-
 ota:
+captive_portal:
+web_server:
 
 wifi:
   ssid: !secret wifi_ssid
