@@ -32,6 +32,9 @@ uart:
   rx_pin: 9
   baud_rate: 9600
 
+status_led:
+  pin: 15
+
 modbus:
   flow_control_pin: 7
 
