@@ -790,7 +790,7 @@ text_sensor:
     ## 7-Segment Display Error Code Digit 1 (FC4: 29, MA: 30030)
   - platform: modbus_controller
     modbus_controller_id: ${device}
-    id: 7_segment_display_error_code_digit_1
+    id: seven_segment_display_error_code_digit_1
     name: ${device} 7-Segment Display Error Code Digit 1
     icon: mdi:alert-circle
     entity_category: diagnostic
@@ -815,7 +815,7 @@ text_sensor:
     ## 7-Segment Display Error Code Digit 2 (FC4: 30, MA: 30031)
   - platform: modbus_controller
     modbus_controller_id: ${device}
-    id: 7_segment_display_error_code_digit_2
+    id: seven_segment_display_error_code_digit_2
     name: ${device} 7-Segment Display Error Code Digit 2
     icon: mdi:alert-circle
     entity_category: diagnostic
