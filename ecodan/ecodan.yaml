@@ -382,7 +382,7 @@ sensor:
     name: ${device} Heat pump run time
     icon: mdi:wrench-clock
     device_class: duration
-    unit_of_measurement: "hrs"
+    unit_of_measurement: "h"
     accuracy_decimals: 0
     lambda: |-
       return id(heat_pump_run_time_100).state + id(heat_pump_run_time_1).state;
