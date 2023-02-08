@@ -958,6 +958,7 @@ number:
     icon: mdi:home-thermometer
     address: 0x20
     unit_of_measurement: "°C"
+    step: 0.5
     register_type: holding
     value_type: S_WORD
     min_value: 10
@@ -973,6 +974,7 @@ number:
     icon: mdi:home-thermometer
     address: 0x22
     unit_of_measurement: "°C"
+    step: 0.5
     register_type: holding
     value_type: S_WORD
     min_value: 10
@@ -988,6 +990,7 @@ number:
     icon: mdi:home-thermometer
     address: 0x36
     unit_of_measurement: "°C"
+    step: 0.5
     register_type: holding
     value_type: S_WORD
     min_value: 10
@@ -1003,6 +1006,7 @@ number:
     icon: mdi:home-thermometer
     address: 0x38
     unit_of_measurement: "°C"
+    step: 0.5
     register_type: holding
     value_type: S_WORD
     min_value: 10
